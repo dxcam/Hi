@@ -7,15 +7,20 @@ public class Juego {
     private Boolean vikingoEstaIzq;
 
     public Juego(){
-        this.usuario = new Jugador();
+    
         this.rio = "-".repeat(20);
         this.barca = "\\_V_;_?_/";
-        this.vikingoEstaIzq = true;
         this.ladoIzq = new String[] {"V","L","C","U"};
         this.ladoDer = new String[] {"","","",""};
+        this.vikingoEstaIzq = true;
     }
 
-    public short mostrarMenu(){
+    // + jugarLobito(): bool
+    public boolean jugarLobito(){
+        while (mostrarMenu());
+        return true;
+    }
+    public boolean mostrarMenu(){
         int opc = -1;
         System.out.println("\n                    "+ barca + rio);
         System.out.println("\n 0 Vikingo va solo "
@@ -36,7 +41,48 @@ public class Juego {
             }
         }catch(Exception e){App.sc.next();}
     }
-    while(opc >=4 && opc<0);
-    return (short) opc;
+    while(opc >=4 || opc<0);
+    //opc 0,1,2,3
+    String individuo = " ";
+    individuo = (vikingoEstaIzq)
+                ? ladoIzq [opc]
+                : ladoDer [opc];
+    moverBarca(individuo);
+    vikingoEstaIzq = !vikingoEstaIzq;
+    return true;
+    }
+
+    private void moverBarca(String individuo){
+        //
+        if(vikingoEstaIzq)
+            for(int i = 0; i < rio.length(); i++){
+                String rioBarca = "\r"+".".repeat(i) + barca + ".".repeat(rio.length()-i);
+                System.out.print(rioBarca);
+                try{
+                    Thread.sleep(200);
+                }catch(InterruptedException e){}
+            }
+        else
+            for(int i = rio.length(); i >= 0; i--){
+                System.out.print("\r"+ ".".repeat(i)+barca);
+                try{
+                    Thread.sleep(200);
+                }catch(InterruptedException e) {}
+            }
+    }
+    // + verifiarRegla(): string
+    
+
+    private void setBarcaRio(int posicionBarca, String individuo){
+        //barca      = "\\_V_,_?_/"
+        String rioBarca =    "\r"
+                            +".".repeat(posicionBarca) 
+                            + barca.replace("?", individuo) 
+                            + ".".repeat(rio.length()-posicionBarca-1);
+        System.out.print(rioBarca);
+        try{
+            Thread.sleep(1000);
+        }catch (InterruptedException e){}
     }
 }
+

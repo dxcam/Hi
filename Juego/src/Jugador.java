@@ -9,13 +9,27 @@ public class Jugador {
         setNombre("camila");
     }
 
-    public boolean Login(String usuario, String clave){
-        if(this.usuario.equalsIgnoreCase(usuario) 
-        && this.clave.equalsIgnoreCase(clave))
-            return true;
+    public boolean Login(){
+        String usuario = "";
+        String clave = "";
+        boolean sinLogeo = true;
+
+        do{
+            System.out.print("Ingrese el nombre de usuario: ");
+            usuario = App.sc.nextLine();
+            System.out.print("Ingrese la clave: ");
+            clave = App.sc.nextLine();
+    
+            if(this.usuario.equalsIgnoreCase(usuario) 
+                && this.clave.equalsIgnoreCase(clave))
+                return true; 
+
+            System.out.print("para sinLogeo (s): ");
+            if(App.sc.nextLine().toUpperCase().equals("S"))
+                sinLogeo = false;
+        }while(sinLogeo);
         return false;
     }
-
 
     public String getUsuario() {
         return usuario;
